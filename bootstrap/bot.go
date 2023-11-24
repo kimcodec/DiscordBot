@@ -1,31 +1,25 @@
 package bootstrap
 
 import (
-	"github.com/bwmarrin/discordgo"
-	"github.com/kimcodec/DiscordBot/handlers"
-
+	"github.com/kimcodec/DiscordBot/internal/app"
+	"github.com/kimcodec/DiscordBot/internal/viper"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
-func NewBot(t string) {
-	dg, err := discordgo.New("Bot " + t)
+func Start() {
+	config, err := viper.InitConfig()
 	if err != nil {
-		log.Println("error creating Discord session", err)
-		return
+		log.Println("failed to init configuration ", err)
 	}
-	defer dg.Close()
+	bot := app.NewBot(config)
 
-	dg.AddHandler(handlers.MessageCreate)
-	dg.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
-
-	if err := dg.Open(); err != nil {
-		log.Println("error opening connection", err)
-		return
+	err = bot.Run()
+	if err != nil {
+		log.Println("failed to run bot ", err)
 	}
-	log.Println("Bot is running")
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
