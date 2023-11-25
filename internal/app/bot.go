@@ -49,6 +49,7 @@ func (b *Bot) Run() error {
 		log.Println("failed to parse logger level")
 		return err
 	}
+	b.logger = logrus.New()
 	b.logger.SetLevel(logLevel)
 
 	return nil
