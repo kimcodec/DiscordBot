@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
-	"log"
 )
 
 type DataBase struct {
@@ -25,8 +24,10 @@ func (DataBase *DataBase) Open() error {
 	if err := db.Ping(); err != nil {
 		return err
 	}
+	if err := initDBStructure(db); err != nil {
+		return err
+	}
 	DataBase.db = db
-	log.Println("Database connected successfully")
 	return nil
 }
 

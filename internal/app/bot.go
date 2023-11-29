@@ -30,7 +30,9 @@ func (b *Bot) Run() error {
 	}
 
 	dg.AddHandler(handlers.MessageCreate)
+	dg.AddHandler(handlers.MessageUpdate)
 	dg.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
+	dg.State.MaxMessageCount = 100
 
 	if err := dg.Open(); err != nil {
 		log.Println("error opening connection")
