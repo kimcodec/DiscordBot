@@ -31,6 +31,10 @@ func (b *Bot) Run() error {
 
 	dg.AddHandler(handlers.MessageCreate)
 	dg.AddHandler(handlers.MessageUpdate)
+	dg.AddHandler(handlers.MessageDelete)
+	dg.AddHandler(handlers.MemberAdd)
+	dg.AddHandler(handlers.MemberRemove)
+	dg.AddHandler(handlers.MemberUpdate)
 	dg.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	dg.State.MaxMessageCount = 100
 
