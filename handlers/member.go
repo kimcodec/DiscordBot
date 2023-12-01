@@ -12,7 +12,6 @@ var (
 )
 
 func MemberAdd(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
-	log.Println("member add")
 	// recover на случай, если что-то из элементов embed будет nil
 	defer func() {
 		if r := recover(); r != nil {
@@ -37,7 +36,7 @@ func MemberAdd(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 				Inline: true,
 			},
 			&discordgo.MessageEmbedField{
-				Value:  m.Nick,
+				Value:  m.User.Username,
 				Inline: true,
 			},
 		},
@@ -50,7 +49,6 @@ func MemberAdd(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 }
 
 func MemberRemove(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
-	log.Println("member remove")
 	// recover на случай, если что-то из элементов embed будет nil
 	defer func() {
 		if r := recover(); r != nil {
@@ -75,11 +73,11 @@ func MemberRemove(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
 				Inline: true,
 			},
 			&discordgo.MessageEmbedField{
-				Value:  m.Nick,
+				Value:  m.User.Username,
 				Inline: true,
 			},
 		},
-		Timestamp: m.JoinedAt.Format(time.RFC3339),
+		Timestamp: time.Now().Format(time.RFC3339),
 	}
 
 	if _, err := s.ChannelMessageSendEmbed(logsOtherChannelID, &embed); err != nil {
@@ -88,7 +86,6 @@ func MemberRemove(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
 }
 
 func MemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
-	log.Println("member update")
 	// recover на случай, если что-то из элементов embed будет nil
 	defer func() {
 		if r := recover(); r != nil {
@@ -129,7 +126,7 @@ func MemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 				Value: fmt.Sprintf("**Изменен ник** <@!%s>", m.User.ID),
 			},
 			&discordgo.MessageEmbedField{
-				Value: fmt.Sprintf("Кем: <!@%s>", UserUpdateBy),
+				Value: fmt.Sprintf("Кем: <@!%s>", UserUpdateBy),
 			},
 			&discordgo.MessageEmbedField{
 				Name:   "До:",

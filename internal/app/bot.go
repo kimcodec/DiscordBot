@@ -35,7 +35,7 @@ func (b *Bot) Run() error {
 	dg.AddHandler(handlers.MemberAdd)
 	dg.AddHandler(handlers.MemberRemove)
 	dg.AddHandler(handlers.MemberUpdate)
-	dg.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
+	dg.Identify.Intents = discordgo.IntentsAll
 	dg.State.MaxMessageCount = 100
 
 	if err := dg.Open(); err != nil {
