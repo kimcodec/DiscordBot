@@ -129,8 +129,13 @@ func MemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 				Value: fmt.Sprintf("Кем: <@!%s>", UserUpdateBy),
 			},
 			&discordgo.MessageEmbedField{
-				Name:   "До:",
-				Value:  m.BeforeUpdate.Nick,
+				Name: "До:",
+				Value: func() string {
+					if m.BeforeUpdate.Nick == "" {
+						return m.User.Username
+					}
+					return m.BeforeUpdate.Nick
+				}(),
 				Inline: true,
 			},
 			&discordgo.MessageEmbedField{

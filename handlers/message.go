@@ -79,6 +79,10 @@ func MessageUpdate(s *discordgo.Session, m *discordgo.MessageUpdate) {
 			log.Println("panic happened when update message ", r)
 		}
 	}()
+
+	if m.Content == m.BeforeUpdate.Content {
+		return
+	}
 	// Формируем вложение
 	embed := discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
