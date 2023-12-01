@@ -118,6 +118,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
+	if m.Author.Bot {
+		return
+	}
 	defer func() {
 		if r := recover(); r != nil {
 			log.Println("panic happened when create message ", r)
