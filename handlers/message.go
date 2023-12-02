@@ -62,7 +62,7 @@ func MessageDelete(s *discordgo.Session, m *discordgo.MessageDelete) {
 				Value: m.BeforeDelete.Content,
 			},
 		},
-		Timestamp: m.Timestamp.Format(time.RFC3339),
+		Timestamp: time.Now().Format(time.RFC3339),
 	}
 
 	if _, err := s.ChannelMessageSendEmbed(logsDeleteChannelID, &embed); err != nil {
