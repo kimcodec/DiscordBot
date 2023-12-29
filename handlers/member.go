@@ -100,6 +100,7 @@ func MemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 	logs, err := s.GuildAuditLog(m.GuildID, "", "", 0, 0)
 	if err != nil {
 		log.Println("Can't get audit log ", err)
+		return
 	}
 
 	UserUpdateBy := ""

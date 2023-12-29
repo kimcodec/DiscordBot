@@ -33,7 +33,9 @@ func MessageDelete(s *discordgo.Session, m *discordgo.MessageDelete) {
 	UserDeleteBy := ""
 	for _, entry := range logs.AuditLogEntries {
 		if *entry.ActionType == discordgo.AuditLogActionMessageDelete {
-			UserDeleteBy = entry.UserID
+			if entry.TargetID != entry.UserID { // Не ясно, TargetID - это ID сообщения или пользователя
+				UserDeleteBy = entry.UserID
+			}
 			break
 		}
 	}
@@ -71,7 +73,7 @@ func MessageDelete(s *discordgo.Session, m *discordgo.MessageDelete) {
 }
 
 func MessageUpdate(s *discordgo.Session, m *discordgo.MessageUpdate) {
-	if m.BeforeUpdate == nil || m.Author == nil {
+	if m.BeforeUpdate == nil || m.Author == nil || m.Author.Bot {
 		return
 	}
 	defer func() {
