@@ -33,7 +33,7 @@ func MessageDelete(s *discordgo.Session, m *discordgo.MessageDelete) {
 	UserDeleteBy := ""
 	for _, entry := range logs.AuditLogEntries {
 		if *entry.ActionType == discordgo.AuditLogActionMessageDelete {
-			if entry.TargetID != entry.UserID { // Не ясно, TargetID - это ID сообщения или пользователя
+			if entry.TargetID != m.BeforeDelete.ID { // Не ясно, TargetID - это ID сообщения или пользователя
 				UserDeleteBy = entry.UserID
 			}
 			break
